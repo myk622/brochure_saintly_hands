@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Saintly Hands</title>
+  <meta name="description" content="Luxury Vintage Clothing — vintage with a story">
+  <meta property="og:title" content="Saintly Hands">
+  <meta property="og:image" content="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #F5F3EF;
+      --fg:       #0F0D0B;
+      --mid:      #7A7370;
+      --border:   rgba(15, 13, 11, 0.1);
+      --card-bg:  #FFFFFF;
+      --strip-h:  130px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── PHOTO STRIPS ──────────────────────────── */
+    .strips {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 0;
+      overflow: hidden;
+      opacity: 0;
+      animation: fade-in 0.8s ease 0.1s forwards;
+    }
+
+    .strip-row {
+      display: flex;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .strip-track {
+      display: flex;
+      gap: 6px;
+      will-change: transform;
+    }
+
+    .strip-row:nth-child(1) .strip-track {
+      animation: scroll-left 28s linear infinite;
+    }
+    .strip-row:nth-child(2) .strip-track {
+      animation: scroll-right 22s linear infinite;
+    }
+    .strip-row:nth-child(3) .strip-track {
+      animation: scroll-left 32s linear infinite;
+    }
+    .strip-row:nth-child(4) .strip-track {
+      animation: scroll-right 24s linear infinite;
+    }
+
+    .strip-track img {
+      height: var(--strip-h);
+      width: var(--strip-h);
+      object-fit: cover;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    @keyframes scroll-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes scroll-right {
+      0%   { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* ── MAIN CONTAINER ────────────────────────── */
+    .container {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 36px 20px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* hide extra rows on mobile */
+    .desktop-only { display: none; }
+
+    /* ── DESKTOP LAYOUT ────────────────────────── */
+    @media (min-width: 768px) {
+      .desktop-only { display: flex; }
+
+      body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .strips {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        gap: 5px;
+      }
+
+      .strip-row {
+        flex: 1;
+        height: auto;
+      }
+
+      .strip-track img {
+        height: 100%;
+        width: auto;
+        min-width: 200px;
+        aspect-ratio: 1 / 1;
+      }
+
+      .container {
+        height: 100vh;
+        overflow-y: auto;
+        margin: 0;
+        max-width: none;
+        padding: 48px 56px;
+        justify-content: center;
+        scrollbar-width: none;
+      }
+
+      .container::-webkit-scrollbar { display: none; }
+    }
+
+    /* ── BRAND HEADER ──────────────────────────── */
+    .brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: slide-up 0.7s ease 0.3s forwards;
+    }
+
+    .logo-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #EDE9E1;
+      border: 1.5px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .logo-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--fg);
+      margin-bottom: 6px;
+    }
+
+    .brand-tagline {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid);
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* ── LINKS ─────────────────────────────────── */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--fg);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      opacity: 0;
+    }
+
+    .link-item:nth-child(1) { animation: slide-up 0.5s ease 0.45s forwards; }
+    .link-item:nth-child(2) { animation: slide-up 0.5s ease 0.52s forwards; }
+    .link-item:nth-child(3) { animation: slide-up 0.5s ease 0.59s forwards; }
+    .link-item:nth-child(4) { animation: slide-up 0.5s ease 0.66s forwards; }
+    .link-item:nth-child(5) { animation: slide-up 0.5s ease 0.73s forwards; }
+    .link-item:nth-child(6) { animation: slide-up 0.5s ease 0.80s forwards; }
+    .link-item:nth-child(7) { animation: slide-up 0.5s ease 0.87s forwards; }
+
+    .link-item:active {
+      transform: scale(0.985);
+      box-shadow: none;
+    }
+
+    @media (hover: hover) {
+      .link-item:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(15, 13, 11, 0.08);
+      }
+    }
+
+    .link-left {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .link-icon {
+      width: 17px;
+      height: 17px;
+      fill: var(--fg);
+      opacity: 0.45;
+      flex-shrink: 0;
+    }
+
+    .link-name {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg);
+    }
+
+    .link-arrow {
+      font-size: 14px;
+      color: var(--mid);
+    }
+
+    /* Featured link (own website) */
+    .link-item.featured {
+      background: var(--fg);
+      border-color: var(--fg);
+    }
+
+    .link-item.featured .link-name,
+    .link-item.featured .link-arrow {
+      color: var(--bg);
+    }
+
+    .link-item.featured .link-icon {
+      fill: var(--bg);
+      opacity: 0.8;
+    }
+
+    .link-item.featured:active {
+      background: #2A2620;
+    }
+
+    /* ── FOOTER ────────────────────────────────── */
+    .footer-sep {
+      width: 24px;
+      height: 1px;
+      background: var(--border);
+      margin: 32px 0 16px;
+    }
+
+    footer {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      opacity: 0.6;
+    }
+
+    /* ── KEYFRAMES ─────────────────────────────── */
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ANIMATED PHOTO STRIPS -->
+  <div class="strips">
+    <!-- Row 1: left → -->
+    <div class="strip-row">
+      <div class="strip-track">
+        <img src="img/655226110_18097549478067674_120250138350472041_n.jpg" alt="">
+        <img src="img/instagram_DN8I-V3iJlX.jpg" alt="">
+        <img src="img/561665609_18289200595273009_1492171727403101626_n.jpg" alt="">
+        <img src="img/instagram_C6vtKBOMvqy.jpg" alt="">
+        <img src="img/photo_2026-06-08_23-16-42.jpg" alt="">
+        <!-- duplicate for seamless loop -->
+        <img src="img/655226110_18097549478067674_120250138350472041_n.jpg" alt="">
+        <img src="img/instagram_DN8I-V3iJlX.jpg" alt="">
+        <img src="img/561665609_18289200595273009_1492171727403101626_n.jpg" alt="">
+        <img src="img/instagram_C6vtKBOMvqy.jpg" alt="">
+        <img src="img/photo_2026-06-08_23-16-42.jpg" alt="">
+      </div>
+    </div>
+    <!-- Row 2: ← right (reverse) -->
+    <div class="strip-row">
+      <div class="strip-track">
+        <img src="img/instagram_C6eGOnMsv7m.jpg" alt="">
+        <img src="img/instagram_C6vtKBOMvqy.jpg" alt="">
+        <img src="img/instagram_DN8I-V3iJlX.jpg" alt="">
+        <img src="img/561665609_18289200595273009_1492171727403101626_n.jpg" alt="">
+        <img src="img/655226110_18097549478067674_120250138350472041_n.jpg" alt="">
+        <!-- duplicate -->
+        <img src="img/instagram_C6eGOnMsv7m.jpg" alt="">
+        <img src="img/instagram_C6vtKBOMvqy.jpg" alt="">
+        <img src="img/instagram_DN8I-V3iJlX.jpg" alt="">
+        <img src="img/561665609_18289200595273009_1492171727403101626_n.jpg" alt="">
+        <img src="img/655226110_18097549478067674_120250138350472041_n.jpg" alt="">
+      </div>
+    </div>
+    <!-- Rows 3 & 4: desktop only (hidden on mobile via CSS) -->
+    <div class="strip-row desktop-only">
+      <div class="strip-track">
+        <img src="img/instagram_DN8I-V3iJlX.jpg" alt="">
+        <img src="img/655226110_18097549478067674_120250138350472041_n.jpg" alt="">
+        <img src="img/photo_2026-06-08_23-16-42.jpg" alt="">
+        <img src="img/instagram_C6vtKBOMvqy.jpg" alt="">
+        <img src="img/561665609_18289200595273009_1492171727403101626_n.jpg" alt="">
+        <img src="img/instagram_DN8I-V3iJlX.jpg" alt="">
+        <img src="img/655226110_18097549478067674_120250138350472041_n.jpg" alt="">
+        <img src="img/photo_2026-06-08_23-16-42.jpg" alt="">
+        <img src="img/instagram_C6vtKBOMvqy.jpg" alt="">
+        <img src="img/561665609_18289200595273009_1492171727403101626_n.jpg" alt="">
+      </div>
+    </div>
+    <div class="strip-row desktop-only">
+      <div class="strip-track">
+        <img src="img/561665609_18289200595273009_1492171727403101626_n.jpg" alt="">
+        <img src="img/photo_2026-06-08_23-16-42.jpg" alt="">
+        <img src="img/instagram_C6eGOnMsv7m.jpg" alt="">
+        <img src="img/655226110_18097549478067674_120250138350472041_n.jpg" alt="">
+        <img src="img/instagram_DN8I-V3iJlX.jpg" alt="">
+        <img src="img/561665609_18289200595273009_1492171727403101626_n.jpg" alt="">
+        <img src="img/photo_2026-06-08_23-16-42.jpg" alt="">
+        <img src="img/instagram_C6eGOnMsv7m.jpg" alt="">
+        <img src="img/655226110_18097549478067674_120250138350472041_n.jpg" alt="">
+        <img src="img/instagram_DN8I-V3iJlX.jpg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+
+    <div class="brand-header">
+      <div class="logo-circle">
+        <img src="logo.png" alt="Saintly Hands">
+      </div>
+      <h1 class="brand-name">Saintly Hands</h1>
+      <p class="brand-tagline">vintage with a story</p>
+    </div>
+
+    <nav class="links">
+
+      <a href="https://us.vestiairecollective.com/profile/22796469/?sortBy=relevance&tab=items-for-sale" class="link-item" target="_blank" rel="noopener noreferrer">
+        <div class="link-left">
+          <svg class="link-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+          <span class="link-name">Vestiaire Collective</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="https://www.instagram.com/saintly_hands/" class="link-item" target="_blank" rel="noopener noreferrer">
+        <div class="link-left">
+          <svg class="link-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          <span class="link-name">Instagram</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="https://www.tiktok.com/@saintlyhand?_t=ZN-8tsqjKybR9a&_r=1" class="link-item" target="_blank" rel="noopener noreferrer">
+        <div class="link-left">
+          <svg class="link-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.67a8.18 8.18 0 004.78 1.53V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+          <span class="link-name">TikTok</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="https://www.grailed.com/Saintly_HV" class="link-item" target="_blank" rel="noopener noreferrer">
+        <div class="link-left">
+          <svg class="link-icon" viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9A2 2 0 0011 2H4a2 2 0 00-2 2v7a2 2 0 00.59 1.42l9 9A2 2 0 0013 22a2 2 0 001.41-.59l7-7A2 2 0 0022 13a2 2 0 00-.59-1.42zM5.5 7A1.5 1.5 0 117 5.5 1.5 1.5 0 015.5 7z"/></svg>
+          <span class="link-name">Grailed</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="https://www.vinted.de/member/245881330-saintlyh" class="link-item" target="_blank" rel="noopener noreferrer">
+        <div class="link-left">
+          <svg class="link-icon" viewBox="0 0 24 24"><path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12z"/></svg>
+          <span class="link-name">Vinted</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="https://t.me/santlyhandss" class="link-item" target="_blank" rel="noopener noreferrer">
+        <div class="link-left">
+          <svg class="link-icon" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          <span class="link-name">Telegram</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a href="#" class="link-item featured" target="_blank" rel="noopener noreferrer">
+        <div class="link-left">
+          <svg class="link-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          <span class="link-name">Saintly Hands Shop</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+    </nav>
+
+    <div class="footer-sep"></div>
+    <footer>© 2026 Saintly Hands</footer>
+
+  </div>
+
+</body>
+</html>
